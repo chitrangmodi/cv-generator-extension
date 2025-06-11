@@ -51,6 +51,6 @@ Feel free to open issues or submit pull requests to improve features or add temp
 ---
 
 ## Author
-for any query:
+for any query: </br>
 Chitrang Modi – Mobile: 8487843990  
 LinkedIn: www.linkedin.com/in/chitrang-modi-17b195268
