@@ -37,8 +37,6 @@ Fill in your details, generate a formatted CV preview, and download it as a poli
 3. Click **Generate CV Preview** to see the formatted resume.  
 4. Click **Download as PDF** to export your CV and save it locally.
 
----
-
 
 ---
 
@@ -52,5 +50,6 @@ Feel free to open issues or submit pull requests to improve features or add temp
 
 ## Author
 for any query: </br>
-Chitrang Modi – Mobile: 8487843990  
+Chitrang Modi 
+Mobile: 8487843990  
 LinkedIn: www.linkedin.com/in/chitrang-modi-17b195268
