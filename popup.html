@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV Generator - Professional Resume</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/jspdf.umd.min.js"></script> <!-- Load local jsPDF -->
+    <script src="js/script.js" defer></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+            color: #f9fafb;
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .container {
+            background: #111827dd;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.6);
+        }
+        h1 {
+            font-weight: 900;
+            font-size: 3rem;
+            color: #93c5fd;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px #3b82f6cc;
+        }
+        h2 {
+            color: #bfdbfe;
+            margin-bottom: 12px;
+            font-weight: 700;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 4px;
+        }
+        label {
+            display: block;
+            margin: 16px 0 8px;
+            font-weight: 600;
+            color: #d1d5db;
+        }
+        input[type='text'],
+        input[type='email'],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border-radius: 12px;
+            border: none;
+            background: #1e40af;
+            color: white;
+            box-shadow: inset 0 0 5px #3b82f6;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type='text']:focus,
+        input[type='email']:focus,
+        textarea:focus {
+            outline: none;
+            background-color: #2563eb;
+            box-shadow: 0 0 8px #60a5fa;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+            max-height: 160px;
+        }
+        button {
+            margin-top: 26px;
+            background: #3b82f6;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            text-shadow: 0 0 5px #60a5fa;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #2563eb;
+            box-shadow: 0 0 15px #93c5fd;
+        }
+        #cvPreview {
+            margin-top: 30px;
+            border-radius: 14px;
+            padding: 24px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            border: 1px solid #3b82f6;
+            box-shadow: inset 0 0 25px #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CV Generator</h1>
+        <div class="form-section">
+            <h2>Enter Your Details</h2>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" />
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email address" />
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" placeholder="Enter your phone number" />
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="Enter your address" />
+            <label for="summary">Professional Summary</label>
+            <textarea id="summary" rows="4" placeholder="Enter a brief professional summary"></textarea>
+            <label for="skills">Technical Skills</label>
+            <textarea id="skills" rows="4" placeholder="Enter your skills"></textarea>
+            <label for="experience">Professional Experience</label>
+            <textarea id="experience" rows="4" placeholder="Enter your work experience"></textarea>
+            <label for="education">Education</label>
+            <textarea id="education" rows="4" placeholder="Enter your education details"></textarea>
+            <button id="generateCV">Generate CV</button>
+        </div>
+        <div id="cvPreview" class="cv-preview"></div>
+        <button id="downloadPDF">Download as PDF</button>
+    </div>
+
+    <script src="js/jspdf.umd.min.js"></script>
+    <script>
+        const generateBtn = document.getElementById('generateCV');
+        const preview = document.getElementById('cvPreview');
+        const downloadBtn = document.getElementById('downloadPDF');
+
+        function gatherData() {
+            return {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                summary: document.getElementById('summary').value.trim(),
+                skills: document.getElementById('skills').value.trim(),
+                experience: document.getElementById('experience').value.trim(),
+                education: document.getElementById('education').value.trim(),
+            };
+        }
+
+        function formatText(data) {
+            return (
+                `${data.name || 'Name not provided'}\n` +
+                `${data.phone || 'N/A'} | ${data.email || 'N/A'} | ${data.address || 'N/A'}\n\n` +
+                `Summary\n${data.summary || 'No summary provided'}\n\n` +
+                `Technical Skills\n${data.skills || 'No skills listed'}\n\n` +
+                `Professional Experience\n${data.experience || 'No experience provided'}\n\n` +
+                `Education\n${data.education || 'No education details'}`
+            );
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const data = gatherData();
+            const text = formatText(data);
+            preview.textContent = text;
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const data = gatherData();
+            const margin = 20;
+            let y = 20;
+
+            // Name
+            doc.setFontSize(24);
+            doc.setFont("helvetica", "bold");
+            doc.text(data.name || "Name not provided", margin, y);
+            y += 10;
+
+            // Contact Info
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            const contactInfo = `${data.phone || 'N/A'} | ${data.email || 'N/A'} | ${data.address || 'N/A'}`;
+            doc.text(contactInfo, margin, y);
+            y += 20;
+
+            // Summary
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("Summary", margin, y);
+            y += 10;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            const summaryLines = doc.splitTextToSize(data.summary || "No summary provided.", 180);
+            doc.text(summaryLines, margin, y);
+            y += summaryLines.length * 10 + 10;
+
+            // Technical Skills
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("Technical Skills", margin, y);
+            y += 10;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            const skillsLines = doc.splitTextToSize(data.skills || "No skills listed.", 180);
+            doc.text(skillsLines, margin, y);
+            y += skillsLines.length * 10 + 10;
+
+            // Professional Experience
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("Professional Experience", margin, y);
+            y += 10;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            const experienceLines = doc.splitTextToSize(data.experience || "No experience provided.", 180);
+            doc.text(experienceLines, margin, y);
+            y += experienceLines.length * 10 + 10;
+
+            // Education
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("Education", margin, y);
+            y += 10;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            const educationLines = doc.splitTextToSize(data.education || "No education details.", 180);
+            doc.text(educationLines, margin, y);
+
+            // Save the PDF
+            doc.save(`${(data.name || 'cv').replace(/\s+/g, '_').toLowerCase()}.pdf`);
+        });
+    </script>
+</body>
+</html>

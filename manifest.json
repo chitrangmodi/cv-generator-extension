@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "CV Generator",
+    "version": "1.0",
+    "description": "A simple CV generator extension.",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "cv.png",
+        "48": "curriculum-vitae.png",
+        "128": "cv1.png"
+      }
+    },
+    "permissions": [],
+    "content_security_policy": {
+
+      "extension_pages": "script-src 'self'; object-src 'self'"
+
+  },
+    
+    
+    "icons": {
+      "16": "cv.png",
+        "48": "curriculum-vitae.png",
+        "128": "cv1.png"
+        
+    }
+    
+  }
